@@ -110,7 +110,7 @@ namespace TestCaseBugReporter
             if (args.Length != 7)
             {
                 System.Console.WriteLine("Please enter the 5 arguments");
-                System.Console.WriteLine("Usage: TestCaseBugReporter.exe <TFS Server> <Project Name> <Test Plan Number> <Full Path to result spreadsheet> <Iteration Path> <sprint Start Date> <sprint End date>");
+                System.Console.WriteLine("Usage: v.exe <TFS Server> <Project Name> <Test Plan Number> <Full Path to result spreadsheet> <Iteration Path> <sprint Start Date> <sprint End date>");
                 return;
             }
             try
@@ -120,7 +120,7 @@ namespace TestCaseBugReporter
             catch (System.FormatException)
             {
                 System.Console.WriteLine("Please enter a numeric argument.");
-                System.Console.WriteLine("Usage: Usage: TestCaseBugReporter.exe <TFS Server> <Project Name> <Test Plan Number> <Full Path to result spreadsheet> <Iteration Path>");
+                System.Console.WriteLine("Usage: Usage: TestReportCreator.exe <TFS Server> <Project Name> <Test Plan Number> <Full Path to result spreadsheet> <Iteration Path> <sprint Start Date> <sprint End date>");
                 return;
             }
          
@@ -157,12 +157,12 @@ namespace TestCaseBugReporter
             AddBugData(excell_app, myWorkItemStore, workItemCollection);
 
             excell_app.createAndMoveToNextWS("Bugs Fixed during the Sprint");
-            string queryBuilder = "SELECT [System.Id]" + " FROM WorkItems " + " WHERE [System.WorkItemType] = 'Bug' AND [System.AreaPath] not under 'Glasswall\\Glasswall QFE Team' AND [Microsoft.VSTS.Common.ClosedDate] >= '" + sprintStartDate + "'" + " AND  [Microsoft.VSTS.Common.ClosedDate] <= '" + sprintEndDate + "' " + "ORDER BY [System.Id]";
+            string queryBuilder = "SELECT [System.Id]" + " FROM WorkItems " + " WHERE [System.WorkItemType] = 'Bug' AND [Microsoft.VSTS.Common.ClosedDate] >= '" + sprintStartDate + "'" + " AND  [Microsoft.VSTS.Common.ClosedDate] <= '" + sprintEndDate + "' " + "ORDER BY [System.Id]";
             workItemCollection = myWorkItemStore.Query(queryBuilder);
             AddBugData(excell_app, myWorkItemStore, workItemCollection); 
             
             excell_app.createAndMoveToNextWS("Bugs Created during the Sprint");
-            workItemCollection = myWorkItemStore.Query(" SELECT [System.Id]" + " FROM WorkItems " + " WHERE [System.WorkItemType] = 'Bug' AND [System.AreaPath] not under 'Glasswall\\Glasswall QFE Team' AND [System.CreatedDate] >= '" + sprintStartDate + "' " + " AND  [System.CreatedDate] <= '" + sprintEndDate + "' " + "ORDER BY [System.Id]");
+            workItemCollection = myWorkItemStore.Query(" SELECT [System.Id]" + " FROM WorkItems " + " WHERE [System.WorkItemType] = 'Bug' AND [System.CreatedDate] >= '" + sprintStartDate + "' " + " AND  [System.CreatedDate] <= '" + sprintEndDate + "' " + "ORDER BY [System.Id]");
             AddBugData(excell_app, myWorkItemStore, workItemCollection);           
 
             excell_app.createAndMoveToNextWS("PBI Linked Testcases");
@@ -265,7 +265,7 @@ namespace TestCaseBugReporter
             }
 
             excell_app.save(workBookName);
-            Console.WriteLine("\nTest Bug Reporter : Job Complete\n");
+            Console.WriteLine("\nTest Report Creator : Job Complete\n");
             return;
         }
 
